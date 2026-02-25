@@ -1,8 +1,21 @@
-body {
-    margin: 1em;
-    background-color: aliceblue;
-    text-align: center;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 12pt;
-
+.guess_list {
+    list-style-type: none;
+    padding: 0;
 }
+.guess_list .high {
+    color: red
+}
+
+.guess_list .low {
+    color: blue
+}
+
+.guess_list .correct {
+    color: green
+}
+
+p {
+    font-size: 1em;  
+    font-family: 'Times New Roman', Times, serif;
+}
+

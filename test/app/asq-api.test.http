@@ -1,0 +1,151 @@
+### Base URL
+@baseUrl = http://localhost:3000/asq/api
+
+############################################
+# QUESTIONS
+############################################
+
+### Get all questions (should be empty initially)
+GET {{baseUrl}}/questions
+Accept: application/json
+
+### Create a new question (valid)
+POST {{baseUrl}}/questions
+Content-Type: application/json
+
+{
+  "title": "How do I test my API?",
+  "contents": "I want to make sure all endpoints work correctly.",
+  "author": "Alice123"
+}
+
+@questionId = {{response.body.id}}
+
+### Create a question with invalid author (ValidationError)
+POST {{baseUrl}}/questions
+Content-Type: application/json
+
+{
+  "title": "Invalid author test",
+  "contents": "This should fail",
+  "author": "123Invalid"
+}
+
+### Get specific question by id
+GET {{baseUrl}}/questions/{{questionId}}
+
+### Update question (valid)
+PUT {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+
+{
+  "title": "Updated title for my question",
+  "contents": "Updated contents for my question"
+}
+
+### Update question with extra fields (should ignore extra)
+PUT {{baseUrl}}/questions/{{questionId}}
+Content-Type: application/json
+
+{
+  "title": "Extra fields test",
+  "contents": "Contents unchanged",
+  "likeCount": 100,
+  "created": "2020-01-01T00:00:00Z"
+}
+
+### Get all answers for a question (should be empty initially)
+GET {{baseUrl}}/questions/{{questionId}}/answers
+
+### Get a question that does not exist (404)
+GET {{baseUrl}}/questions/000000000000000000000000
+
+############################################
+# ANSWERS
+############################################
+
+### Post an answer to a question
+POST {{baseUrl}}/questions/{{questionId}}/answers
+Content-Type: application/json
+
+{
+  "contents": "This is my answer to the question.",
+  "author": "Bob123"
+}
+
+@answerId = {{response.body.id}}
+
+### Post an answer with invalid author
+POST {{baseUrl}}/questions/{{questionId}}/answers
+Content-Type: application/json
+
+{
+  "contents": "Invalid answer author",
+  "author": "!!BadUser"
+}
+
+### Get specific answer by id
+GET {{baseUrl}}/answers/{{answerId}}
+
+### Update an answer
+PUT {{baseUrl}}/answers/{{answerId}}
+Content-Type: application/json
+
+{
+  "contents": "Updated answer content"
+}
+
+### Get an answer that does not exist (404)
+GET {{baseUrl}}/answers/000000000000000000000000
+
+############################################
+# LIKES
+############################################
+
+### Get likes for a post (should be empty)
+GET {{baseUrl}}/likes/{{questionId}}
+
+### Check if user liked a post (should be false)
+GET {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Like a post
+POST {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Like the same post again (should succeed without incrementing likeCount)
+POST {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Check if user liked the post (should be true)
+GET {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Get likes for post (should include Alice123)
+GET {{baseUrl}}/likes/{{questionId}}
+
+### Unlike a post
+DELETE {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Unlike a post again (should succeed, always return false)
+DELETE {{baseUrl}}/likes/{{questionId}}/Alice123
+
+### Get likes for post after unlike (should be empty)
+GET {{baseUrl}}/likes/{{questionId}}
+
+############################################
+# ERROR HANDLING
+############################################
+
+### Unsupported method on questions (405)
+DELETE {{baseUrl}}/questions
+
+### Invalid JSON body (400 INVALID_JSON)
+POST {{baseUrl}}/questions
+Content-Type: application/json
+
+{
+  "title": "Bad JSON
+}
+
+### Access answer with question id (should 404)
+GET {{baseUrl}}/answers/{{questionId}}
+
+### Access question with answer id (should 404)
+GET {{baseUrl}}/questions/{{answerId}}

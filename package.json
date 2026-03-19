@@ -10,7 +10,7 @@
     "test": "jest",
     "start": "node .",
     "start:watch": "nodemon .",
-    "startdb": "mongod --dbpath ./db"
+    "startdb": "mongod --dbpath ./lib/db"
   },
   "dependencies": {
     "body-parser": "^2.2.2",

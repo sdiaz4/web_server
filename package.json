@@ -9,7 +9,8 @@
   "scripts": {
     "test": "jest",
     "start": "node .",
-    "start:watch": "nodemon ."
+    "start:watch": "nodemon .",
+    "startdb": "mongod --dbpath ./db"
   },
   "dependencies": {
     "body-parser": "^2.2.2",

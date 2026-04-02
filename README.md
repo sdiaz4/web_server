@@ -1,8 +1,7 @@
 The names of all people who worked on the project
     - Simon Diaz
 The project title and description
-    - Express Server
-    - Secret Number Game
+    - ASQ API - Making API to interact with database
 Any external sources used on the project
     - N/A
 Any weaknesses of the project, and how you would like to have addressed them

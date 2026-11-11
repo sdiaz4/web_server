@@ -91,8 +91,6 @@ The server connects to the `asq` database on `localhost`.
 | `MORGAN_FORMAT` | Morgan request-log format | `dev` |
 | `SESSION_SECRET` | Secret used to sign session cookies | `default_secret` |
 
-**Note:** `app.js` loads the JWT public key from `keys/tas.pub.pem` at the project root, but the repository stores it at `lib/keys/tas.pub.pem`. Copy it to a top-level `keys/` folder, or update the path, before starting the server.
-
 ## Built with
 
 Express 5, Mongoose 9, express-session with session-file-store, express-handlebars, jsonwebtoken, Winston and Morgan.
